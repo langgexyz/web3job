@@ -4,7 +4,7 @@ async function main() {
     const [deployer] = await ethers.getSigners();
 
     // TODO 请将此地址替换为你部署后的 Lock 合约地址
-    const lockAddress = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707";
+    const lockAddress = "0x591bbe40Ef476FeAa35F7E099BF859d74E572021";
 
     const Lock = await ethers.getContractAt("Lock", lockAddress);
 
@@ -15,7 +15,7 @@ async function main() {
     console.log("Current timestamp:", currentTime);
 
     if (currentTime < unlockTime) {
-        const waitTime = unlockTime - currentTime;
+        const waitTime = unlockTime - BigInt(currentTime);
         console.log(`⏳ 当前尚未到解锁时间，需等待 ${waitTime} 秒后再试`);
         return;
     }
