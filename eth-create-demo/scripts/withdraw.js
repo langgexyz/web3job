@@ -4,7 +4,7 @@ async function main() {
     const [deployer] = await ethers.getSigners();
 
     // TODO 请将此地址替换为你部署后的 Lock 合约地址
-    const lockAddress = "0x591bbe40Ef476FeAa35F7E099BF859d74E572021";
+    const lockAddress = "0x532323de74BAb864b7005D910E5bD8562D038b9b";
 
     const Lock = await ethers.getContractAt("Lock", lockAddress);
 
