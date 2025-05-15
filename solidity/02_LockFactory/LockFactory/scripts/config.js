@@ -1,0 +1,3 @@
+module.exports = {
+  lockFactoryAddress: "0x851356ae760d987E095750cCeb3bC6014560891C"
+};
