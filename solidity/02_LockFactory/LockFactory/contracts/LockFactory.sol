@@ -47,4 +47,47 @@ contract LockFactory {
 
         emit LockCreated(lockAddress, msg.sender, _unlockTime, msg.value);
     }
+
+    // TODO 思考有了 create，为什么还需要create2？为了解决什么问题？引入了哪些新的问题？可能出现哪些安全漏洞？
+    function createLock3(uint256 _unlockTime, bytes32 salt) external payable returns (address lockAddress) {
+        require(msg.value > 0, "Must send ETH");
+
+        // 1. 编码构造参数：constructor(address, uint256)
+        bytes memory constructorArgs = abi.encode(payable(msg.sender), _unlockTime);
+
+        // 2. 拼接完整部署代码
+        bytes memory bytecode = abi.encodePacked(type(Lock).creationCode, constructorArgs);
+
+        // 3. 使用 CREATE2 部署
+        assembly {
+            lockAddress := create2(
+                callvalue(),          // 附带 ETH
+                add(bytecode, 0x20),  // 指向实际部署代码内容
+                mload(bytecode),      // 部署代码长度
+                salt                  // 唯一 salt
+            )
+            if iszero(lockAddress) {
+                revert(0, 0)
+            }
+        }
+
+        emit LockCreated(lockAddress, msg.sender, _unlockTime, msg.value);
+    }
+
+    function computeLockAddress(address user, uint256 _unlockTime, bytes32 salt) public view returns (address predicted) {
+        // 1. 构造参数 + creationCode 拼接
+        bytes memory constructorArgs = abi.encode(user, _unlockTime);
+        bytes memory bytecode = abi.encodePacked(type(Lock).creationCode, constructorArgs);
+        bytes32 bytecodeHash = keccak256(bytecode);
+
+        // 2. 计算 CREATE2 地址：keccak256(0xff ++ factory ++ salt ++ keccak256(bytecode))[12:]
+        predicted = address(uint160(uint(
+            keccak256(abi.encodePacked(
+                bytes1(0xff),
+                address(this),
+                salt,
+                bytecodeHash
+            ))
+        )));
+    }
 }
