@@ -1,0 +1,6 @@
+module.exports = {
+  "proxyAddress": "0x202CCe504e04bEd6fC0521238dDf04Bc9E8E15aB",
+  "lockV1Address": "0x0355B7B8cb128fA5692729Ab3AAa199C1753f726",
+  "addressAddress": "0x6C3d502f1a97d4470b881015b83D9Dd1062172e1",
+  "lockV2Address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
+};
