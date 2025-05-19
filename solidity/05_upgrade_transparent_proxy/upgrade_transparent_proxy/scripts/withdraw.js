@@ -7,7 +7,10 @@ const {proxyAddress, lockV2Address} = require("./config")
   2. 所有的 msg.sender、msg.value 等上下文变量都 保留原始调用者的信息，不会因为进入了逻辑合约而改变。
  */
 async function main() {
-    const Proxy = await ethers.getContractAt("LockV2", proxyAddress);
+    const LockV2 = await ethers.getContractFactory("LockV2");
+    const Proxy = new ethers.Contract(proxyAddress, LockV2.interface, (await ethers.getSigners())[0]);
+
+    // const Proxy = await ethers.getContractAt("LockV2", proxyAddress);
     await Proxy.on("DebugAddress", (label, addr) => {
         console.log(`${label}: ${addr}`);
     });
