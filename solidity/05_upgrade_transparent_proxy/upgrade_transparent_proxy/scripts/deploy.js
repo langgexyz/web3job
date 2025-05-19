@@ -1,8 +1,6 @@
 const { ethers, upgrades } = require("hardhat");
 const path = require("path");
 const fs = require("fs");
-const {proxyAddress} = require("./config");
-
 
 /**
  1. 如何获取 implementation 地址; 不通过 implementation 能不能直接调用？
@@ -21,12 +19,12 @@ async function main() {
     await proxy.waitForDeployment();
     const proxyAddress = await proxy.getAddress();
 
-    const addressAddress = await upgrades.erc1967.getAdminAddress(proxyAddress)
+    const adminAddress = await upgrades.erc1967.getAdminAddress(proxyAddress)
     const implementationAddress = await upgrades.erc1967.getImplementationAddress(proxyAddress)
     const config = {
         proxyAddress:proxyAddress,
         implementationAddress:implementationAddress,
-        addressAddress:addressAddress,
+        adminAddress:adminAddress,
     }
     const configPath = path.resolve(__dirname, "config.js");
     fs.writeFileSync(configPath, `module.exports = ${JSON.stringify(config, null, 2)};\n`);

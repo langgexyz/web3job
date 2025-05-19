@@ -1,6 +1,5 @@
 module.exports = {
-  "proxyAddress": "0x202CCe504e04bEd6fC0521238dDf04Bc9E8E15aB",
-  "lockV1Address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8",
-  "addressAddress": "0x6C3d502f1a97d4470b881015b83D9Dd1062172e1",
-  "lockV2Address": "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb"
+  "proxyAddress": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+  "implementationAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "addressAddress": "0xd8058efe0198ae9dD7D563e1b4938Dcbc86A1F81"
 };
