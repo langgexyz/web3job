@@ -4,9 +4,10 @@ const path = require("path");
 const fs = require("fs");
 
 async function main() {
-    const Lock = await ethers.getContractFactory("LockV2");
+    const LockV2 = await ethers.getContractFactory("LockV2");
 
-    const proxy = await upgrades.upgradeProxy(proxyAddress, Lock)
+    // TODO uups 优点是不需要一个单独的ProxyAdmin，缺点是每个Proxy也需要一个一个的升级
+    const proxy = await upgrades.upgradeProxy(proxyAddress, LockV2)
     await proxy.waitForDeployment();
 
     const implementationAddress = await upgrades.erc1967.getImplementationAddress(proxyAddress)
