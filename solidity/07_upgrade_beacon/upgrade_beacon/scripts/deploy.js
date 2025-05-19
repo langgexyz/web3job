@@ -2,6 +2,7 @@ const {ethers, upgrades} = require("hardhat")
 const path = require("path");
 const fs = require("fs");
 
+// TODO beacon 也会多部署一个合约，用于存储 impl
 async function main() {
     // 1. 获取逻辑合约
     const Lock = await ethers.getContractFactory("Lock");
