@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("fonts/NotoSansCJKsc-Regular.otf");
+}
+
+body {
+  font-family: "NotoSansSC", sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+

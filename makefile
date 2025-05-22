@@ -2,7 +2,7 @@
 
 # Define the input and output files
 INPUT_FILE = resume.md
-OUTPUT_FILE = resume.pdf
+OUTPUT_FILE = resume(zero).pdf
 
 # Define the PDF engine (weasyprint)
 PDF_ENGINE = weasyprint
