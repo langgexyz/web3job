@@ -8,20 +8,29 @@
 **Email**: [findyu001@gmail.com](mailto:findyu001@gmail.com)  
 **Phone**: +86 184 0825 1020  
 
+---
+
 ### **Job Objective**
 
-*Smart Contract Engineer / Golang Backend Engineer / Full-stack Engineer (Remote | Chengdu)*
+*Smart Contract Engineer / Golang Backend Engineer / Full-Stack Developer (Remote)*
+
+---
 
 ### **Career Summary**
 
-Experienced full-stack developer and architect, skilled in designing and developing solutions from the client-side to the server-side and from on-chain to off-chain. Led core projects many times, managing teams, architecture design, and key module development. Able to guide teams through challenges, complete tough tasks as assigned by leadership, and deliver complex projects efficiently.
+Experienced full-stack developer and architect, skilled in designing and developing solutions from client-side to server-side and from on-chain to off-chain.   
+Led core projects multiple times, managing teams, designing architecture, and developing key modules.  
+Skilled at guiding teams through challenges, completing tasks assigned by leadership, and delivering complex projects efficiently.  
+
+---
+
 ### **Core Skills**
 
 * **Languages**: Golang, TypeScript, Rust, Kotlin, Swift
-* **Web3**: Solana (Rust), EVM (Solidity), Smart Contract Development/Auditing
-* **Full-Stack**: Web, Mobile (iOS/Android), Server-side systems, On-chain/off-chain architecture
-* **Security**: CEX/DEX integration, private key management, ECC/AES/SSS cryptographic libraries (Rust/WASM)
-* **Tools**: ChatGPT-assisted development for rapid prototyping and architecture design
+* **Web3**: Solana (Rust), EVM (Solidity), Smart Contract Development and Auditing
+* **Full-Stack**: Expertise in developing core logic and designing architecture for Web, Mobile (iOS/Android), server-side systems, and On-Chain/Off-Chain solutions.
+* **Security**: CEX/DEX Integration, Private Key Management, ECC/AES/SSS Cryptographic Libraries (Rust/WASM)
+* **Tools**: AI-assisted Development (ChatGPT) for Enhancing Code Development Efficiency and Exploring New Domains, and Enjoying the Fun of Development
 
 ---
 
@@ -31,22 +40,22 @@ Experienced full-stack developer and architect, skilled in designing and develop
 
 **Web3 Social IM Application**
 
-* *Overview*: A Web3 platform controlled by users with end-to-end encryption, where only the communicating parties can decrypt messages. Integrated with CEX/DEX (Binance, OKX) for secure trading and allows users to deploy private nodes for full control over their data.
+* *Overview*: A user-controlled Web3 platform with end-to-end encryption, where only the communicating parties can decrypt messages. Integrated with CEX/DEX (Binance, OKX) for secure trading and allows users to deploy private nodes for full control over their data.
 * *Responsibilities*:
 
-  * Led and built a team of 20+ members, responsible for developing core logic for iOS/Android/Web/PC apps and backend systems, as well as designing both on-chain and off-chain architectures.
+  * Built and led a 20+ member team, responsible for developing core logic for iOS/Android/Web/PC apps and backend systems, as well as designing both on-chain and off-chain architectures.
   * Built Rust libraries (ECC, AES, Keccak256, SSS) compiled to WASM for cross-platform SDKs.
   * Automated Kotlin/Swift code generation via ChatGPT to speed up multi-platform development.
-  * Developed Solidity L1/L3 payment contracts with centralized Oracle signatures for security.
+  * Developed Solidity-based L1/L3 payment contracts with centralized Oracle signatures for security.
 
 **Web3 Social IM Application (DeFi Economic Model)**
 
-* *Overview*: A Solana-based DeFi economic model (similar to pump.fun), with 12 audited smart contracts (12,000+ LOC).
+* *Overview*: A Solana-based DeFi economic model (similar to pump.fun), with 12 audited smart contracts (12k+ LOC).
 * *Responsibilities*:
 
-  * Led the design of both on-chain and off-chain architectures for the economic model, progress tracking, contract audit communication, and resolving related issues.
+  * Led the design of both on-chain and off-chain architectures for the economic model, tracked progress, communicated with the audit team, and resolved related issues.
   * Addressed complex contract issues, such as designing dynamic on-chain pricing (Bucket + Slot, similar to ERC-7527) to replace off-chain price feeds.
-  * Managed contract security during operations, including creating Golang tools to automate contract compilation, deployment, command execution monitoring, and automatic Git log uploads, ensuring no security incidents.
+  * Managed contract security during operations, including creating Golang tools to automate contract compilation, deployment, command execution monitoring, and automated Git log uploads, ensuring no security incidents.
 
 ---
 
@@ -56,7 +65,7 @@ Experienced full-stack developer and architect, skilled in designing and develop
 *Real Estate Division*
 
 * Led development and front-end team management for property management mini-programs, marketing systems, and admin portals.
-* Improved user experience and set up front-end architecture standards.
+* Improved user experience and established front-end architecture standards.
 
 **Aerospace Cloud Health Technology** (Jan 2018 - Dec 2020)
 
@@ -69,9 +78,13 @@ Experienced full-stack developer and architect, skilled in designing and develop
 
 * Developed iOS apps with Bluetooth hardware integration and MQTT protocol.
 * Built PHP backend systems and integrated third-party systems (including Kuqi).
-* Implemented payment gateways (WeChat Pay, Alipay), setting up the foundation for third-party system integration.
+* Implemented payment gateways (WeChat Pay, Alipay), establishing the foundation for third-party system integration.
 
 **Skyworth Group** (Jul 2012 - Jun 2014)
 
 * Developed embedded Linux systems and device drivers using C.
-* Gained product development experience that later helped in Rust smart contract work.
+* Gained product development experience that later informed Rust smart contract development.
+
+---
+
+Thank you for reviewing my resume and taking the time to consider my application. I look forward to the opportunity to contribute to your team and collaborate with you.
