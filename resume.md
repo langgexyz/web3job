@@ -12,7 +12,7 @@
 
 ### **Job Objective**
 
-*Smart Contract Engineer / Golang Backend Engineer / Full-Stack Developer (Remote)*
+*Smart Contract Engineer / Golang Backend Engineer / Full-Stack Engineer (Remote)*
 
 ---
 
