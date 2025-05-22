@@ -18,7 +18,7 @@
 
 ### **Career Summary**
 
-Experienced full-stack developer and architect, skilled in designing and developing solutions from client-side to server-side and from on-chain to off-chain.   
+Experienced full-stack engineer and architect, skilled in designing and developing solutions from client-side to server-side and from on-chain to off-chain.   
 Led core projects multiple times, managing teams, designing architecture, and developing key modules.  
 Skilled at guiding teams through challenges, completing tasks assigned by leadership, and delivering complex projects efficiently.  
 
