@@ -48,7 +48,7 @@ Skilled at guiding teams through challenges, completing tasks assigned by leader
   * Automated Kotlin/Swift code generation via ChatGPT to speed up multi-platform development.
   * Developed Solidity-based L1/L3 payment contracts with centralized Oracle signatures for security.
 
-**Web3 Social IM Application (DeFi Economic Model)**
+**DeFi Economic Model for Web3 Social IM Application**
 
 * *Overview*: A Solana-based DeFi economic model (similar to pump.fun), with 12 audited smart contracts (12k+ LOC).
 * *Responsibilities*:
