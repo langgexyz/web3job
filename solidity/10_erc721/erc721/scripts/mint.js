@@ -20,6 +20,7 @@ async function main() {
     const receipt = await tx.wait();
     console.log("Mint transaction confirmed.");
 
+    // TODO receipt 只能作为客户端判断，链上有可能回滚的
     const iface = myNFT.interface;
     const logs = receipt.logs
         .map(log => {
