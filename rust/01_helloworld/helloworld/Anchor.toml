@@ -4,14 +4,14 @@
 seeds = false
 skip-lint = false
 
-[programs.localnet]
-helloworld = "8rXyiVRE32hi9d8PTxjNavGo2doakmBpvry82AXZrsVd"
+[programs.devnet]
+helloworld = "DTuUrdBSiTh4ven5y4QYhYWLBzb6ehjZbKhLsBNKPkps"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "https://api.devnet.solana.com"
+cluster = "devnet"
 wallet = "/Users/zero/.config/solana/id.json"
 
 [scripts]
