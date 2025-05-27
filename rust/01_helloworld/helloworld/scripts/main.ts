@@ -15,9 +15,10 @@ export async function main() {
     const txId = await program.methods.initialize("Hello, Solana!")
         .accounts({
             messageAccount:messageAccount,
-            signer:signer,
+            user:signer.publicKey,
             systemProgram:SystemProgram.programId,
         })
+        .signers([signer])
         .rpc();
     console.log("Transaction submitted:", txId);
 

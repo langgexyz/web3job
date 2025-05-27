@@ -5,8 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/pelletier/go-toml"
-	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 )
 
@@ -22,7 +22,7 @@ func main() {
 		log.Fatalf("Error loading Cargo.toml file: %v\n", err)
 	}
 
-	localnetPrograms := config.Get("programs.devnet").(*toml.Tree)
+	localnetPrograms := config.Get("programs.localnet").(*toml.Tree)
 	if localnetPrograms == nil {
 		log.Fatalf("No programs.localnet section found in the Cargo.toml file.\n")
 	}
@@ -50,7 +50,7 @@ func main() {
 // updateProgram updates the address in the IDL file for the specified program
 func updateProgram(idlDir string, programName string, address string) {
 	jsonFilePath := filepath.Join(idlDir, fmt.Sprintf("%s.json", programName))
-	jsonData, err := ioutil.ReadFile(jsonFilePath)
+	jsonData, err := os.ReadFile(jsonFilePath)
 	if err != nil {
 		log.Printf("Error reading JSON file %s: %v\n", jsonFilePath, err)
 		return
@@ -82,7 +82,7 @@ func updateProgram(idlDir string, programName string, address string) {
 		return
 	}
 
-	err = ioutil.WriteFile(jsonFilePath, updatedData, 0644)
+	err = os.WriteFile(jsonFilePath, updatedData, 0644)
 	if err != nil {
 		log.Printf("Error writing updated JSON file %s: %v\n", jsonFilePath, err)
 		return
