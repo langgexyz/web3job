@@ -12,14 +12,25 @@ export async function main() {
     const program = anchor.workspace.helloworld as Program<Helloworld>
 
     const [messageAccount, _bump] = anchor.web3.PublicKey.findProgramAddressSync([Buffer.from("message"), signer.publicKey.toBuffer()], program.programId)
-    const txId = await program.methods.initialize("Hello, Solana!")
-        .accounts({
-            messageAccount:messageAccount,
-            user:signer.publicKey,
-            systemProgram:SystemProgram.programId,
-        })
-        .signers([signer])
-        .rpc();
+    const txId = await (async () => {
+        const accountInfo = await connection.getAccountInfo(messageAccount)
+        if (accountInfo) {
+            return await program.methods.setMessage("Hello, Solana!!!")
+                .accounts({
+                    messageAccount:messageAccount,
+                })
+                .signers([signer])
+                .rpc()
+        }
+        return await program.methods.initialize("Hello, Solana!")
+            .accounts({
+                messageAccount:messageAccount,
+                user:signer.publicKey,
+                systemProgram:SystemProgram.programId,
+            })
+            .signers([signer])
+            .rpc();
+    })()
     console.log("Transaction submitted:", txId);
 
     const latestBlockhash = await connection.getLatestBlockhash();
