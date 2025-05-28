@@ -4,6 +4,7 @@ import {
     getOrCreateAssociatedTokenAccount,
     TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
+import { SYSVAR_INSTRUCTIONS_PUBKEY } from "@solana/web3.js";
 import { Spltokencpi } from "../target/types/spltokencpi";
 import {config} from "./config"
 
@@ -37,6 +38,7 @@ export async function main() {
             tokenProgram: TOKEN_PROGRAM_ID,
             // TODO 思考如何不手写这个地址，否则spltoken地址变化了，这儿还需要手动同步修改？
             spltokenProgram:new anchor.web3.PublicKey("9q76qB4ieWmZzQ3tbgqtKNtLScBj4QD3w5942GEBsjqz"),
+            ixSysvar: anchor.web3.SYSVAR_INSTRUCTIONS_PUBKEY,
         })
         .signers([signer])
         .rpc();
