@@ -7,6 +7,7 @@ skip-lint = false
 [programs.localnet]
 spltoken = "9q76qB4ieWmZzQ3tbgqtKNtLScBj4QD3w5942GEBsjqz"
 spltokencpi = "5LixViAAm5pyV1rjExDKvxdWRuCBYJ8tdsLzxJi96an8"
+lock = "AF1qD7iXg1531TcDjoDCbzj9L4jx6z5po2zZ4ixGb686"
 
 [registry]
 url = "https://api.apr.dev"

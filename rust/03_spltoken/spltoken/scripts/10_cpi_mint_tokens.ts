@@ -4,7 +4,6 @@ import {
     getOrCreateAssociatedTokenAccount,
     TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
-import { SYSVAR_INSTRUCTIONS_PUBKEY } from "@solana/web3.js";
 import { Spltokencpi } from "../target/types/spltokencpi";
 import {config} from "./config"
 
