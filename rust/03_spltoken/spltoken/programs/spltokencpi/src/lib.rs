@@ -1,5 +1,8 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, MintTo, Burn, Transfer, Token, TokenAccount, Mint};
+use anchor_spl::token::{Token, TokenAccount, Mint};
+use spltoken::cpi::accounts::MintTokens;
+use spltoken::cpi;
+use spltoken::program::Spltoken;
 
 declare_id!("5LixViAAm5pyV1rjExDKvxdWRuCBYJ8tdsLzxJi96an8");
 
@@ -7,77 +10,39 @@ declare_id!("5LixViAAm5pyV1rjExDKvxdWRuCBYJ8tdsLzxJi96an8");
 pub mod spltokencpi {
     use super::*;
 
-    pub fn mint_tokens(ctx:Context<MintTokens>, amount:u64) -> Result<()> {
-        let cpi_ctx = CpiContext::new(
-            ctx.accounts.token_program.to_account_info(),
-            MintTo {
-                mint: ctx.accounts.mint.to_account_info(),
-                to: ctx.accounts.to.to_account_info(),
-                authority: ctx.accounts.mint_authority.to_account_info(),
-            },
-        );
-        token::mint_to(cpi_ctx, amount)?;
-        Ok(())
-    }
-
-    pub fn transfer_tokens(ctx:Context<TransferTokens>, amount:u64) -> Result<()> {
-        let cpi_ctx = CpiContext::new(
-            ctx.accounts.token_program.to_account_info(),
-            Transfer {
-                from:ctx.accounts.from.to_account_info(),
-                to:ctx.accounts.to.to_account_info(),
-                authority:ctx.accounts.authority.to_account_info(),
-            }
-        );
-
-        token::transfer(cpi_ctx, amount)?;
-        Ok(())
-    }
-
-    pub fn burn_tokens(ctx:Context<BurnTokens>, amount:u64) -> Result<()> {
-        let cpi_ctx = CpiContext::new(
-            ctx.accounts.token_program.to_account_info(),
-            anchor_spl::token::Burn {
-                mint: ctx.accounts.mint.to_account_info(),
-                from: ctx.accounts.from.to_account_info(),
-                authority: ctx.accounts.authority.to_account_info(),
-            },
-        );
-        token::burn(cpi_ctx, amount)?;
+    pub fn mint_tokens(ctx:Context<CpiMintTokens>, amount:u64) -> Result<()> {
+        // TODO ?是什么意思？
+        // 如果这个操作返回 Err(e)，就立刻返回这个错误；否则提取出 Ok(value) 中的值。
+        // match spltoken::cpi::mint_tokens(ctx.accounts.to_cpi_ctx(), amount) {
+        //     Ok(_) => {},                   // 执行成功，继续往下走
+        //     Err(e) => return Err(e),      // 出错就提前返回这个错误
+        // }
+        // TODO 如何控制 mint_tokens 只能由 spltokencpi 调用呢？
+        spltoken::cpi::mint_tokens(ctx.accounts.to_cpi_ctx(), amount)?;
         Ok(())
     }
 }
 
-// TODO Account 和 AccountInfo 有什么区别？
 #[derive(Accounts)]
-pub struct MintTokens<'info> {
-    #[account(mut)]
-    pub mint:Account<'info, Mint>,
-    #[account(mut)]
-    pub to:Account<'info, TokenAccount>,
-    pub mint_authority:Signer<'info>,
-    pub token_program:Program<'info, Token>,
-}
-
-#[derive(Accounts)]
-pub struct TransferTokens<'info> {
-    #[account(mut)]
-    pub from:Account<'info, TokenAccount>,
-    #[account(mut)]
-    pub to:Account<'info, TokenAccount>,
-    pub authority: Signer<'info>,
-    pub token_program:Program<'info, Token>,
-}
-
-// TODO Burn 可以燃烧别人钱包的代币？
-#[derive(Accounts)]
-pub struct BurnTokens<'info> {
+pub struct CpiMintTokens<'info> {
     #[account(mut)]
     pub mint: Account<'info, Mint>,
+    #[account(mut)]
+    pub to: Account<'info, TokenAccount>,
+    pub mint_authority: Signer<'info>,
+    pub token_program: Program<'info, Token>,
+    pub spltoken_program: Program<'info, Spltoken>,
+}
 
-    // TODO has_one 是什么意思？
-    #[account(mut, constraint = from.owner == authority.key())]
-    pub from: Account<'info, TokenAccount>,
-    pub authority: Signer<'info>,
-    pub token_program:Program<'info, Token>,
+impl<'info> CpiMintTokens<'info> {
+    pub fn to_cpi_ctx(&self) -> CpiContext<'_, '_, '_, 'info, spltoken::cpi::accounts::MintTokens<'info>> {
+        let cpi_program = self.spltoken_program.to_account_info();
+        let cpi_accounts = spltoken::cpi::accounts::MintTokens {
+            mint: self.mint.to_account_info(),
+            to: self.to.to_account_info(),
+            mint_authority: self.mint_authority.to_account_info(),
+            token_program: self.token_program.to_account_info(),
+        };
+        CpiContext::new(cpi_program, cpi_accounts)
+    }
 }
