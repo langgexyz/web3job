@@ -3,7 +3,7 @@ use anchor_spl::token::{Token, TokenAccount, Mint};
 use spltoken::program::Spltoken;
 use anchor_lang::solana_program::sysvar::instructions::ID as IX_ID;
 
-declare_id!("5LixViAAm5pyV1rjExDKvxdWRuCBYJ8tdsLzxJi96an8");
+declare_id!("MVyr524TCDeXQSkmaZDFJertE3y1Ua4o9KnEZQCosna");
 
 #[program]
 pub mod spltokencpi {

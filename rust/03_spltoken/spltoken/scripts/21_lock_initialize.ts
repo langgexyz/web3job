@@ -28,6 +28,22 @@ export async function main() {
         program.programId
     );
 
+    console.log("statePda", statePda.toBase58())
+    console.log("vaultPda", vaultPda.toBase58())
+    if (!await connection.getAccountInfo(vaultPda)) {
+        const tx = await program.methods
+            .createVault()
+            .accounts({
+                owner: signer.publicKey,
+                vault: vaultPda,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            })
+            .signers([signer])
+            .rpc();
+
+        console.log("Vault created with tx:", tx);
+    }
+
     const tx = await program.methods
         .initialize(new anchor.BN(new Date().getTime()/1000 + 5*60))
         .accounts({

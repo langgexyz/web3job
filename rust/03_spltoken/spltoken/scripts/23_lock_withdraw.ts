@@ -22,11 +22,13 @@ export async function main() {
         program.programId
     );
 
+    console.log("statePda", statePda.toBase58())
     // 生成 vault PDA
     const [vaultPda, _vaultBump] = anchor.web3.PublicKey.findProgramAddressSync(
         [Buffer.from("vault"), signer.publicKey.toBuffer()],
         program.programId
     );
+    console.log("vaultPda", vaultPda.toBase58())
 
     const tx = await program.methods
         .withdraw(new anchor.BN(1_000_000_000))

@@ -4,7 +4,7 @@ use anchor_lang::solana_program::sysvar::instructions::load_instruction_at_check
 use anchor_lang::solana_program::sysvar::instructions::load_current_index_checked;
 use anchor_lang::solana_program::sysvar::instructions::ID as IX_ID;
 
-declare_id!("9q76qB4ieWmZzQ3tbgqtKNtLScBj4QD3w5942GEBsjqz");
+declare_id!("B5LHB5cW784EDckM1aEVr9RkcesfufUYcPaa1SqUdvSj");
 
 #[program]
 pub mod spltoken {

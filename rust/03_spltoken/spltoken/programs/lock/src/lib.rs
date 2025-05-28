@@ -1,7 +1,10 @@
 use anchor_lang::prelude::*;
 use anchor_lang::system_program;
-
-declare_id!("AF1qD7iXg1531TcDjoDCbzj9L4jx6z5po2zZ4ixGb686");
+use anchor_lang::solana_program::{
+    program::invoke_signed,
+    system_instruction,
+};
+declare_id!("84s5XRQZycmBMmj3jCsJ9T5C5znKQCfuVchNsnmo3uqk");
 
 #[program]
 pub mod lock {
@@ -17,6 +20,35 @@ pub mod lock {
         Ok(())
     }
 
+    pub fn create_vault(ctx: Context<CreateVault>) -> Result<()> {
+        let rent = Rent::get()?;
+        let lamports = rent.minimum_balance(0);
+
+        let create_ix = system_instruction::create_account(
+            &ctx.accounts.owner.key(),
+            &ctx.accounts.vault.key(),
+            lamports,
+            0,
+            &system_program::ID,
+        );
+
+        invoke_signed(
+            &create_ix,
+            &[
+                ctx.accounts.owner.to_account_info(),
+                ctx.accounts.vault.to_account_info(),
+                ctx.accounts.system_program.to_account_info(),
+            ],
+            &[&[
+                b"vault",
+                ctx.accounts.owner.key.as_ref(),
+                &[ctx.bumps.vault],
+            ]]
+        )?;
+
+        Ok(())
+    }
+
     pub fn withdraw(ctx: Context<Withdraw>, amount:u64) -> Result<()> {
         let now = Clock::get()?.unix_timestamp;
         let state = &ctx.accounts.state;
@@ -24,14 +56,24 @@ pub mod lock {
         require!(now >= state.unlock_time, LockError::NotUnlocked);
         require!(ctx.accounts.owner.key() == state.owner, LockError::Unauthorized);
 
-        let cpi_context = CpiContext::new(
+        let signer_seeds: &[&[&[u8]]] = &[
+            &[
+                b"vault",
+                ctx.accounts.owner.key.as_ref(),
+                &[ctx.bumps.vault],
+            ]
+        ];
+        let cpi_ctx = CpiContext::new_with_signer(
             ctx.accounts.system_program.to_account_info(),
             system_program::Transfer {
-                from: ctx.accounts.vault.to_account_info().clone(),
-                to: ctx.accounts.owner.to_account_info().clone(),
+                from: ctx.accounts.vault.to_account_info(),
+                to: ctx.accounts.owner.to_account_info(),
             },
+            signer_seeds,
         );
-        system_program::transfer(cpi_context, amount)?;
+
+        system_program::transfer(cpi_ctx, amount)?;
+
 
         // **ctx.accounts.vault.to_account_info().try_borrow_mut_lamports()? -= amount;
         // **ctx.accounts.owner.try_borrow_mut_lamports()? += amount;
@@ -61,13 +103,29 @@ pub mod lock {
         // **ctx.accounts.vault.to_account_info().try_borrow_mut_lamports()? += amount;
         // **ctx.accounts.owner.try_borrow_mut_lamports()? -= amount;
 
-        emit!(WithdrawEvent {
+        emit!(DepositEvent {
             amount: amount,
             time: now,
         });
 
         Ok(())
     }
+}
+
+#[derive(Accounts)]
+pub struct CreateVault<'info> {
+    #[account(mut)]
+    pub owner: Signer<'info>,
+
+    /// CHECK: Vault PDA
+    #[account(
+        mut,
+        seeds = [b"vault", owner.key().as_ref()],
+        bump
+    )]
+    pub vault: SystemAccount<'info>,
+
+    pub system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
@@ -81,15 +139,15 @@ pub struct Initialize<'info> {
     )]
     pub state:Account<'info, State>,
 
-    /// CHECK: PDA vault to hold SOL
+    // TODO 不用SystemAccount 用AccountInfo init 会发生什么？Transfer: `from` must not carry data
+    /// CHECK: Vault PDA
     #[account(
-        init,
-        payer = owner,
-        space = 8,
+        mut,
         seeds = [b"vault", owner.key().as_ref()],
         bump
     )]
-    pub vault:AccountInfo<'info>,
+    pub vault: SystemAccount<'info>,
+
     #[account(mut)]
     pub owner:Signer<'info>,
 
@@ -107,7 +165,7 @@ pub struct Withdraw<'info> {
         seeds = [b"vault", owner.key().as_ref()],
         bump
     )]
-    pub vault: AccountInfo<'info>,
+    pub vault: SystemAccount<'info>,
 
     #[account(mut)]
     pub owner: Signer<'info>,
@@ -127,7 +185,7 @@ pub struct Deposit<'info> {
         seeds = [b"vault", owner.key().as_ref()],
         bump
     )]
-    pub vault: AccountInfo<'info>,
+    pub vault: SystemAccount<'info>,
 
     #[account(mut)]
     pub owner: Signer<'info>,
