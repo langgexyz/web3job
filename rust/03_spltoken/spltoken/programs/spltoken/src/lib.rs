@@ -21,9 +21,9 @@ pub mod spltoken {
     }
 }
 
-#[derive(Acounts)]
+#[derive(Accounts)]
 pub struct MintTokens<'info> {
-    #[acount(mut)]
+    #[account(mut)]
     pub mint:Account<'info, Mint>,
     #[account(mut)]
     pub to:Account<'info, TokenAccount>,
