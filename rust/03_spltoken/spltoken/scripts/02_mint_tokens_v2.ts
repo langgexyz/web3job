@@ -1,8 +1,12 @@
 import * as anchor from "@coral-xyz/anchor";
 import {
+    ASSOCIATED_TOKEN_PROGRAM_ID,
     getOrCreateAssociatedTokenAccount,
     TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
+
+import {SYSVAR_INSTRUCTIONS_PUBKEY} from "@solana/web3.js";
+
 import { Spltoken } from "../target/types/spltoken";
 import {config} from "./config"
 
@@ -14,7 +18,6 @@ export async function main() {
     const wallet = provider.wallet as anchor.Wallet;
     const signer = wallet.payer;
     const program = anchor.workspace.spltoken as anchor.Program<Spltoken>;
-
     const mint = new anchor.web3.PublicKey(config.mintAddress);
 
     // 获取接收者的 Associated Token Account（ATA）
@@ -22,25 +25,26 @@ export async function main() {
         connection,
         signer,
         mint,
-        signer.publicKey // 自己接收 token
+        signer.publicKey
     );
 
-    // 构造 Anchor 调用参数
-    const amount = new anchor.BN(1000_000_000_000); // 即 1 token，如果 decimals=9
+    const amount = new anchor.BN(1000_000_000_000);
     const tx = await program.methods
-        .mintTokens(amount)
+        .mintTokensV2(amount)
         .accounts({
+            to:toATA.address,
             mint,
-            to: toATA.address,
+            recipient: signer.publicKey,
             mintAuthority: signer.publicKey,
             tokenProgram: TOKEN_PROGRAM_ID,
+            associatedTokenProgram:ASSOCIATED_TOKEN_PROGRAM_ID,
             ixSysvar:anchor.web3.SYSVAR_INSTRUCTIONS_PUBKEY,
         })
         .signers([signer])
         .rpc();
 
     console.log("✅ Mint 成功，交易哈希:", tx);
-    console.log("✅ TokenAccount 地址:", toATA.address.toBase58());
+    console.log("✅ TokenAccount 地址:", signer.publicKey.toBase58());
 }
 
 main().catch(console.error);

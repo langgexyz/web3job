@@ -6,7 +6,7 @@ skip-lint = false
 
 [programs.localnet]
 lock = "84s5XRQZycmBMmj3jCsJ9T5C5znKQCfuVchNsnmo3uqk"
-spltoken = "B5LHB5cW784EDckM1aEVr9RkcesfufUYcPaa1SqUdvSj"
+spltoken = "6siE68rhixWS5EMgfNTNjMGmv1MoqC2G9zMbJ7CA5t4R"
 spltokencpi = "MVyr524TCDeXQSkmaZDFJertE3y1Ua4o9KnEZQCosna"
 
 [registry]

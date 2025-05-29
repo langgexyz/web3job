@@ -3,14 +3,28 @@ use anchor_spl::token::{self, MintTo, Burn, Transfer, Token, TokenAccount, Mint}
 use anchor_lang::solana_program::sysvar::instructions::load_instruction_at_checked;
 use anchor_lang::solana_program::sysvar::instructions::load_current_index_checked;
 use anchor_lang::solana_program::sysvar::instructions::ID as IX_ID;
+use anchor_spl::associated_token::AssociatedToken;
 
-declare_id!("B5LHB5cW784EDckM1aEVr9RkcesfufUYcPaa1SqUdvSj");
+declare_id!("6siE68rhixWS5EMgfNTNjMGmv1MoqC2G9zMbJ7CA5t4R");
 
 #[program]
 pub mod spltoken {
     use super::*;
 
     pub fn mint_tokens(ctx:Context<MintTokens>, amount:u64) -> Result<()> {
+        let cpi_ctx = CpiContext::new(
+            ctx.accounts.token_program.to_account_info(),
+            MintTo {
+                mint: ctx.accounts.mint.to_account_info(),
+                to: ctx.accounts.to.to_account_info(),
+                authority: ctx.accounts.mint_authority.to_account_info(),
+            },
+        );
+        token::mint_to(cpi_ctx, amount)?;
+        Ok(())
+    }
+
+    pub fn mint_tokens_v2(ctx:Context<MintTokensV2>, amount:u64) -> Result<()> {
         let cpi_ctx = CpiContext::new(
             ctx.accounts.token_program.to_account_info(),
             MintTo {
@@ -77,6 +91,33 @@ pub struct MintTokens<'info> {
     pub token_program:Program<'info, Token>,
 
     /// CHECK: sysvar
+    #[account(address = IX_ID)]
+    pub ix_sysvar: AccountInfo<'info>,
+}
+
+#[derive(Accounts)]
+pub struct MintTokensV2<'info> {
+    #[account(mut)]
+    pub mint: Account<'info, Mint>,
+
+    #[account(
+        init_if_needed,
+        payer = mint_authority,
+        associated_token::mint = mint,
+        associated_token::authority = recipient,
+    )]
+    pub to: Account<'info, TokenAccount>,
+
+    /// CHECK: recipient only used for ATA derivation
+    pub recipient: AccountInfo<'info>,
+
+    #[account(mut)]
+    pub mint_authority: Signer<'info>,
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    pub system_program: Program<'info, System>,
+
+    /// CHECK: sysvar (instructions)
     #[account(address = IX_ID)]
     pub ix_sysvar: AccountInfo<'info>,
 }
