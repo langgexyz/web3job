@@ -12,7 +12,11 @@ pub mod helloworld {
     }
 
     pub fn set_message(ctx:Context<SetMessage>, message:String) -> Result<()> {
-        ctx.accounts.message_account.message = message;
+        ctx.accounts.message_account.message = message.clone();
+        msg!("set_message {}", message);
+        emit!(SetMessageEvent{
+            message
+        });
         Ok(())
     }
 }
@@ -39,5 +43,10 @@ pub struct SetMessage<'info> {
 }
 #[account]
 pub struct MessageAccount {
+    pub message: String,
+}
+
+#[event]
+pub struct SetMessageEvent {
     pub message: String,
 }

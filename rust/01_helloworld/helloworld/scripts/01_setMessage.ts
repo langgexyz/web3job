@@ -40,6 +40,19 @@ export async function main() {
     }, "confirmed");
 
     console.log("Transaction confirmation status:", confirmation);
+
+    const tx = await connection.getTransaction(txId, {
+        commitment: "confirmed",
+        maxSupportedTransactionVersion: 0,
+    });
+
+    const logs = tx?.meta?.logMessages ?? [];
+
+    const parser = new anchor.EventParser(program.programId, program.coder);
+    const events = await parser.parseLogs(logs)
+    for (let event of events) {
+        console.log(`name=${event.name} data=`, event.data)
+    }
 }
 
 main().catch(console.error)

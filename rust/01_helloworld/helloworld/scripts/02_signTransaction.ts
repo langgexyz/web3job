@@ -59,6 +59,8 @@ export async function main() {
         console.log("Signed Base64 Transaction:");
         console.log(rawTx);
     })()
+
+    // TODO Transaction Version	legacy  除了 legacy 还有哪几种？
 }
 
 main().catch(console.error)
