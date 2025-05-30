@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 contract HelloWorld {
     string public message;
 
-    // TODO 一个事件可以有多少个 indexed？
+    // TODO 一个事件可以有多少个 indexed？ 最多3个，indexed进入topic，非indexed参数进入 data
     event SetMessage(address indexed sender, string oldMessage, string newMessage);
 
     // TODO 请思考 memory 是什么意思？有哪些存储方式？
